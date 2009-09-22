@@ -1,0 +1,15 @@
+{% include "header.html" %}
+
+<h2> Paste something </h2>
+
+{% include "paste_form.html" %}
+
+<hr/>
+
+<div class="pastes">
+{% for paste in pastes %}
+	{% include "print_paste.html" %}
+{% endfor %}
+</div>
+
+{% include "footer.html" %}

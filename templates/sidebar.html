@@ -1,0 +1,46 @@
+
+<div class="column span-8 last">
+	
+	{% if session.user %}
+	
+		<p>Logged in as {{session.nickname}}.
+		<a href="/logout">Logout?</a>
+		</p>
+		
+		<hr/>
+		
+		<p><a href="/profile/{{session.usercode}}">My pastes</a></p>
+		
+		<hr/>
+
+		
+		<p><a href="/friends/{{session.usercode}}">Friends</a>
+		{% ifequal session.num_friend_requests 0 %}
+		{% else %}
+			{% ifequal session.num_friend_requests 1 %}
+			- 1 request
+			{% else %}		
+			- {{session.num_friend_requests}} requests
+			{% endifequal %}
+		{% endifequal %}
+		</p>
+		
+		<hr/>
+		
+		<p><a href="/settings">Settings</a></p>
+	
+		<hr/>
+		
+	{% else %}
+	
+		<p>This site is even better if you
+		<a href="/login">login or create an account</a>.
+		</p>
+		
+		<hr/>
+		
+	{% endif %}
+
+	<p><a href="/about">About</a></p>
+
+</div>

@@ -1,0 +1,42 @@
+{% include "header.html" %}
+
+{% if your_profile %}
+<h2> Your profile</h2>
+{% else %}
+<h2> {{prof_nickname}}'s profile </h2>
+	{% if are_friends %}
+		<p>You are friends with {{prof_nickname}}. (But you can <a href="{{unfriend_link}}">unfriend</a> them if you'd like.)</p>
+	{% else %}
+		{% if friend_link %}
+		<p>You are not friends with {{prof_nickname}}. (You can <a href="{{friend_link}}">friend</a> them if you'd like.)</p>
+		{% else %}
+			{% if approve_link %}
+				<p> {{prof_nickname}} has requested to friend you. Do you <a href="{{approve_link}}">approve</a> or <a href="{{reject_link}}">reject</a>? </p>
+			{% else %}
+				{% if awaiting_reply %}
+				<p> {{prof_nickname}} has not yet responded to your friend request. </p>
+				{% else %}
+				<p> You could be friends with {{prof_nickname}} if you'd <a href="{{session.login_url}}">login or create an account.</a> </p>
+				{% endif %}
+			{% endif%}
+		{% endif %}
+	{% endif %}
+{% endif %}
+
+<hr/>
+
+{% ifequal num_pastes 0 %}
+	{% if your_profile %}
+		<p>You haven't pasted anything yet. <a href="/paste/new">Try it out</a>.</p>
+	{% else %}
+		<p>{{prof_nickname}} hasn't pasted anything yet.</p>
+	{% endif %}
+{% else %}
+<div class="pastes">
+{% for paste in pastes %}
+	{% include "print_paste.html" %}
+{% endfor %}
+</div>
+{% endifequal %}
+
+{% include "footer.html" %}

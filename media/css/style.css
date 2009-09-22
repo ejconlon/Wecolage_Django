@@ -1,0 +1,47 @@
+
+.floatleft 	{ float: left; }
+.floatright { float: right; }
+.nofloat 	{ float: none; }
+.clearleft 	{ clear: left; }
+.clearright { clear: right; }
+.clearboth 	{ clear: both; }
+.center		{ text-align: center; }
+.logocontainer{
+	padding-top: 10px;
+}
+.logo		{ 
+	text-decoration: none;
+	font-weight: bold;
+	color: maroon;
+} .sublogo{
+	color: purple;
+}.subtext {
+	font-size: .8em;
+} #qmark {
+	color: black;
+	vertical-align: super;
+	font-size: .5em;
+	font-weight: bold;
+} #explanation {
+	color: purple;
+	font-weight: bold;
+	font-size: .8em;
+} .black{
+	color: black;
+} .maroon {
+	color: maroon;
+} .purple {
+	color: purple;
+} .hidden {
+	display: none;
+}
+
+a {
+	text-decoration: none;
+	color: maroon;
+}
+body {
+	
+	/*background-color: #fff7e8;*/
+	
+}

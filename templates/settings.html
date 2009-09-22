@@ -1,0 +1,10 @@
+{% include "header.html" %}
+
+<h2> Settings </h2>
+
+<p>Nickname: {{ session.nickname }}</p>
+<p>Email: {{ session.email }}</p>
+<p>Pastes are hidden by default: {{ session.pastes_hidden_by_default }}</p>
+<p>API Key: {{ apikey }}</p>
+
+{% include "footer.html" %}

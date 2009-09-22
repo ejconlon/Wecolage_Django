@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title> Wecolage{% if paste %}: {{ paste.name }} (Paste {{ paste.pastecode }}){%else%}{%if profile_link%}: {{prof_nickname}} (User {{prof_usercode}}){%endif%}{% endif %}</title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+		<link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />	
+		<!--[if lt IE 8]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, 
+		projection" /><![endif]-->
+		
+		<link rel="stylesheet" type="text/css" href="/css/code_styles.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		
+		<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+		{% if explain %}
+		<script type="text/javascript">	
+		opacity = 0;
+		moving = false;
+		fadeTime = 300;
+		jQuery(document).ready(function($){
+			$("#qmark").attr("href", "javascript:;").click(function(){
+				if (!moving){
+					if (opacity == 0){
+						moving = true;
+						$("#explanation").fadeIn(fadeTime, function(){
+							opacity = 1;
+							moving = false;
+						});
+					} else {
+						moving = true;
+						$("#explanation").fadeOut(fadeTime, function(){
+							opacity = 0;
+							moving = false;
+						});
+					} 
+				}
+			});
+		});
+		</script>
+		{% endif %}
+	</head>
+	<body> <div class="container">
+		
+		<div class="container logocontainer">
+			
+		<h1> <a class="logo" href="/"><span class="maroon">We</span><span class="sublogo">colage</span></a>{% if explain %}<a href="/about" id="qmark">(?)</a><span id="explanation" class="hidden"> <span class="black">= Portmanteau(</span><span class="maroon">We</span><span class="black">,</span> <span class="purple">Bricolage</span><span class="black">);</span> <a href="/about"><span class="maroon">READ</span><span class="purple">ME</span></a></span>{% endif %}
+			{% if paste %}: <span class="subtext">{{ paste.name }} (Paste <a href="{{ paste_url }}">{{ paste.pastecode }}</a>) </span>{%else%}{%if profile_link%}: <span class="subtext">{{prof_nickname}} (User <a href="{{profile_link}}">{{prof_usercode}}</a>)</span>{%endif%} {% endif %} </h1>
+		</div>
+		
+		<hr/>
+		
+		<div class="container">
+			
+			<div class="column span-16">
+		
+			{% if flash %} <div class="flash">{{ flash }}</div><br/><hr/> {% endif %}
