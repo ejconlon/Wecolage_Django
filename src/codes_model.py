@@ -3,7 +3,7 @@ from common import *
 from django.db import models
 
 class Code(models.Model):
-	code = model.CharField()
+	code = models.CharField(max_length=max_code_len)
 	
 	def __generate_code(self):
 		return "".join((random.choice(self.code_chars) for i in xrange(self.code_len)))
@@ -22,11 +22,11 @@ class Code(models.Model):
 		return self.objects.get(code=code).count()>0
 		
 class Pastecode(Code):
-	code_len = 8
+	code_len = pastecode_len
 	code_chars = [x for x in "012345789abcdefghijklmnopqrstuvwxyz"]
 class Usercode(Code):
-	code_len = 8
+	code_len = usercode_len
 	code_chars = [x for x in "012345789abcdefghijklmnopqrstuvwxyz"]
 class Apikey(Code):
-	code_len = 64
+	code_len = apikey_len
 	code_chars = [x for x in "012345789abcdefghijklmnopqrstuvwxyz"]

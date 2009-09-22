@@ -1,8 +1,12 @@
 
 import cgi, os, hashlib, formatting, random, logging
 
-filename_chars = set("012345789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-")
+usercode_len = 8
+pastecode_len = 8
+apikey_len = 64
+max_code_len = max(usercode_len, pastecode_len, apikey_len)
 
+filename_chars = set("012345789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-")
 
 def sub_char(c):
 	if c in filename_chars:

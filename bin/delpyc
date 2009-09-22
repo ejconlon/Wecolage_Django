@@ -1,0 +1,2 @@
+#!/bin/bash
+find /Users/charolastra/work2/wecolage/ -name "*.pyc" | xargs rm -Rf

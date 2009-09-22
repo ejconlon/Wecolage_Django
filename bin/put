@@ -1,0 +1,4 @@
+#!/bin/bash
+rsync -avzu --exclude "*.pyc" /Users/charolastra/work2/wecolage/src/* digitol@fuelsyourcyb.org:django/django_projects/wecolage 
+rsync -avzu --exclude "*.pyc" /Users/charolastra/work2/wecolage/templates/* digitol@fuelsyourcyb.org:django/django_templates/wecolage
+rsync -avzu --exclude "admin_media" /Users/charolastra/work2/wecolage/media/* digitol@fuelsyourcyb.org:media.wecolage.org

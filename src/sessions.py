@@ -1,27 +1,21 @@
 from common import *
 
-from google.appengine.api import users
 from userdata_model import UserData
 from codes_model import Usercode, Apikey
 from friendrequest_model import FriendRequest
-from appengine_utilities import sessions
 
-from google.appengine.ext import webapp
-
-class PersistentRequestHandler(webapp.RequestHandler):
-	#def __init__(self):
-	#	webapp.RequestHandler.__init__(self)
-	
-	def init_session(self):
-		self.session = PersistentRequestHandler.get_session(self.request.uri)
+class Session:
+	def __init__(self, request):
+		self.session = request.session
+		self.request_uri = request.path
+		self.load_session_vars()
 		if 'redirect' in self.session: 
 			return
 		if 'current' in self.session:
 			self.session['previous'] = self.session['current']
 		else:
 			self.session.delete_item('previous')
-		self.session['current'] = self.request.uri
-			
+		self.session['current'] = request.path	
 		self.template_values = {
 			'session': self.session,
 			'flash': self.get_flash()
@@ -50,26 +44,25 @@ class PersistentRequestHandler(webapp.RequestHandler):
 		if key in self.session: return self.session[key]
 		else: return None
 	
-	@staticmethod
-	def get_session(request_uri):
-		session = sessions.Session()
+	def load_session_vars(self):
+		session = self.session
 		user = users.get_current_user()
-		session['login_url'] = users.create_login_url(request_uri)
-		session['logout_url'] = users.create_logout_url(request_uri)
+		session['login_url'] = users.create_login_url(self.request_uri)
+		session['logout_url'] = users.create_logout_url(self.request_uri)
 		if 'user' in session and session['user'] != user:
 			session.delete()
 			session = sessions.Session()
 		if user is None:
-			return PersistentRequestHandler.load_userdata_into_session(session)
+			return self.load_userdata_into_session(session)
 		else:
 			session['user'] = user
 			if 'got_userdata' in session and session['got_userdata']:
 				session['num_friend_requests'] = FriendRequest.get_number_of_requests(session['usercode'])
 				return session
-			return PersistentRequestHandler.load_userdata_into_session(session)
+			return self.load_userdata_into_session(session)
 	
-	@staticmethod
-	def load_userdata_into_session(session):
+	def load_userdata_into_session(self):
+		session = self.session
 		if 'user' in session:
 			user = session['user']
 		#	 is user in the userdata table? else make it and go to the settings page

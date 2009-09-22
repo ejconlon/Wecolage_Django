@@ -1,14 +1,14 @@
 from common import *
 
-from django.db import model
+from django.db import models
 
-class UserData(model.Model):
-	usercode = model.CharField()
-	apikey = model.CharField()
-	nickname = model.CharField()
-	email = model.EmailField()
-	pastes_hidden_by_default = model.BooleanField(default=False)
-	friends_hidden_by_default = model.BooleanField(default=False)
+class UserData(models.Model):
+	usercode = models.CharField(max_length=usercode_len)
+	apikey = models.CharField(max_length=apikey_len)
+	nickname = models.CharField(max_length=512)
+	email = models.EmailField()
+	pastes_hidden_by_default = models.BooleanField(default=False)
+	friends_hidden_by_default = models.BooleanField(default=False)
 	
 	def get_usercode(self):
 		return self.usercode
@@ -17,7 +17,7 @@ class UserData(model.Model):
 	
 	@staticmethod
 	def get_by_code(code):
-		udatas = UserData.objects.get(usercode=code)
+		udatas = UserData.objects.filter(usercode=code)
 		if udatas.count() != 1:
 			return None
 		else:
@@ -25,11 +25,11 @@ class UserData(model.Model):
 
 	@staticmethod
 	def get_by_codes(codes):
-		return UserData.objects.get(usercode__in=codes)
+		return UserData.objects.filter(usercode__in=codes)
 			
 	@staticmethod
 	def get_apikey_by_code(code):
-		udata = UserData.get_by_code(code)
+		udata = UserData.filter_by_code(code)
 		if not (udata is None):
 			return udata.apikey
 		else:
@@ -37,4 +37,4 @@ class UserData(model.Model):
 	
 	@staticmethod
 	def check_apikey(code, key):
-		return (key == UserData.get_apikey_by_code(key))
+		return (key == UserData.filter_apikey_by_code(key))

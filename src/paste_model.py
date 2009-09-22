@@ -4,24 +4,24 @@ import random, datetime
 
 from codes_model import Pastecode
 
-from django.db import model
+from django.db import models
 
-class Paste(model.Model):
-	pastecode = model.CharField()
-	usercode = model.CharField()
-	name = model.CharField()
-	description = model.TextField()
-	content = model.TextField()
-	parsed_content = model.TextField()
-	parent_diff = model.TextField()
-	parsed_parent_diff = model.TextField()
-	format = model.CharField()
-	date_created = model.DateTimeField(auto_now_add=True)
-	password_hash = model.CharField()
-	hidden = model.BooleanField(default=False)
-	parent_code = model.CharField()
-	ancestor_code = model.CharField()
-	marked_for_deletion = model.BooleanField(default=False)
+class Paste(models.Model):
+	pastecode = models.CharField(max_length=pastecode_len)
+	usercode = models.CharField(max_length=usercode_len)
+	name = models.CharField(max_length=512)
+	description = models.TextField()
+	content = models.TextField()
+	parsed_content = models.TextField()
+	parent_diff = models.TextField()
+	parsed_parent_diff = models.TextField()
+	format = models.CharField(max_length=128)
+	date_created = models.DateTimeField(auto_now_add=True)
+	password_hash = models.CharField(max_length=256)
+	hidden = models.BooleanField(default=False)
+	parent_code = models.CharField(max_length=pastecode_len)
+	ancestor_code = models.CharField(max_length=pastecode_len)
+	marked_for_deletion = models.BooleanField(default=False)
 	
 	def check_password(self, password):
 		if password is None or len(password)==0:
@@ -58,7 +58,7 @@ class Paste(model.Model):
 
 	@staticmethod
 	def get_by_code(pastecode):
-		pastes = Paste.objects.get(pastecode=pastecode)
+		pastes = Paste.objects.filter(pastecode=pastecode)
 		if pastes.count() != 1:
 			return None
 		else:
@@ -66,12 +66,12 @@ class Paste(model.Model):
 			
 	@staticmethod
 	def get_all_by_usercode(usercode):
-		return Paste.objects.get(usercode=usercode).order_by('date_created')
+		return Paste.objects.filter(usercode=usercode).order_by('date_created')
 		
 	@staticmethod
 	def get_public_by_usercode(usercode):
-			return Paste.objects.get(usercode=usercode, hidden=False).order_by('date_created')
+			return Paste.objects.filter(usercode=usercode, hidden=False).order_by('date_created')
 		
 	@staticmethod	
 	def get_most_recent_public():
-		return Paste.objects.get(hidden=False).order_by('date_created')
+		return Paste.objects.filter(hidden=False).order_by('date_created')
