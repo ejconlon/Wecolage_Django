@@ -61,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django_openidconsumer.middleware.OpenIDMiddleware',
 )
 
 ROOT_URLCONF = 'wecolage.urls'
@@ -79,5 +80,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
+	'django_openidconsumer',
+	'openid_auth',
 	'wecolage'
 )
+
+AUTHENTICATION_BACKENDS = (
+    #'django.contrib.auth.backends.ModelBackend',
+    'wecolage.auth_backends.CustomUserModelBackend',
+	'openid_auth.models.OpenIDBackend',
+)
+
+CUSTOM_USER_MODEL = 'wecolage.UserData'

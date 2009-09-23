@@ -3,7 +3,7 @@ from common import *
 from django.db import models
 
 class Code(models.Model):
-	code = models.CharField(max_length=max_code_len)
+	code = models.CharField(max_length=max_code_len, primary_key=True)
 	
 	def __generate_code(self):
 		return "".join((random.choice(self.code_chars) for i in xrange(self.code_len)))

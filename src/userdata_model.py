@@ -2,13 +2,17 @@ from common import *
 
 from django.db import models
 
-class UserData(models.Model):
-	usercode = models.CharField(max_length=usercode_len)
+from django.contrib.auth.models import User, UserManager
+
+class UserData(User):
+	usercode = models.CharField(max_length=usercode_len, primary_key=True)
 	apikey = models.CharField(max_length=apikey_len)
 	nickname = models.CharField(max_length=512)
-	email = models.EmailField()
+	#email = models.EmailField()
 	pastes_hidden_by_default = models.BooleanField(default=False)
 	friends_hidden_by_default = models.BooleanField(default=False)
+	
+	objects = UserManager()
 	
 	def get_usercode(self):
 		return self.usercode

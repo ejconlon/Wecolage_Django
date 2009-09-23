@@ -7,7 +7,7 @@ from codes_model import Pastecode
 from django.db import models
 
 class Paste(models.Model):
-	pastecode = models.CharField(max_length=pastecode_len)
+	pastecode = models.CharField(max_length=pastecode_len, primary_key=True)
 	usercode = models.CharField(max_length=usercode_len)
 	name = models.CharField(max_length=512)
 	description = models.TextField()

@@ -1,0 +1,73 @@
+(View, template)
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+def login_openid(request, template_name='accounts/login_openid.html', redirect_field_name=REDIRECT_FIELD_NAME):
+    """
+    Displays the OpenID login form and handles the OpenID login action.
+    
+    ``redirect_field_name`` must be set to the same value as that passed into
+    the ``complete_openid_login`` view.
+    """
+
+return render_to_response(template_name,
+                          {'openid_form' : openid_form,
+                           'site_name' : current_site.name,
+                           redirect_field_name : redirect},
+                          context_instance=RequestContext(request))
+						*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+
+def success_openid_login(request, openid_response, redirect_field_name=REDIRECT_FIELD_NAME):
+    """
+    A view-helper to handle a successful OpenID authentication response.  Note that this
+    doesn't mean we've found a matching user yet.  That's what this method
+    does.  This view-helper requires adding ``openid_auth.models.OpenIDBackend`` to the
+    ``settings.AUTHENTICATION_BACKENDS`` list.
+    """
+#TODO: This should start the registration process
+return failure_openid_login(request,
+                            openid_response,
+                            _("The OpenID doesn't match any registered user."),
+                            redirect_field_name=REDIRECT_FIELD_NAME)
+							*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+
+def logout(request, next_page=None, template_name='accounts/logged_out.html'):
+    """
+    View to handle loging a user out.
+    """
+    return auth_views.logout(request, next_page=next_page, template_name=template_name)
+
+@login_required
+def create_openid(request, template_name='accounts/openid_form.html',
+        extra_context=None, redirect_field_name=REDIRECT_FIELD_NAME,
+        redirect=None, verify=True):
+    """
+    Generic view that optionally verifies and adds an openid to the currently logged in user.
+    """
+	return render_to_response(template_name,
+                              {'openid_form' : openid_form,
+                               redirect_field_name : redirect},
+                              context_instance=context)
+							*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+
+def delete_openid(request, user_openid_id, redirect,
+        template_name='accounts/openid_confirm_delete.html',
+        extra_context=None):
+		"""
+	    UserOpenID delete function.
+
+	    The given template will be used to confirm deletetion if this view is
+	    fetched using GET; for safty, deletion will only be performed if this
+	    view is POSTed.
+
+	    Templates: ``accounts/openid_confirm_delete.html``
+	    RequestContext:
+	        user_openid
+	            the UserOpenID object being deleted
+	    """
+		 return render_to_response(template_name,
+	                                  {'user_openid' : user_openid},
+	                                  context_instance=context)
